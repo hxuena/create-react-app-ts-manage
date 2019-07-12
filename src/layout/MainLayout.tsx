@@ -1,8 +1,10 @@
 import React from 'react';
+import { Link  } from "react-router-dom";
 import { Layout, Menu, Icon } from 'antd';
 
-const { Header, Sider, Content } = Layout;
+const { Header, Sider, Content, Footer } = Layout;
 
+const SubMenu = Menu.SubMenu
 class SiderDemo extends React.Component {
   state = {
     collapsed: false,
@@ -22,19 +24,26 @@ class SiderDemo extends React.Component {
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
             <Menu.Item key="1">
               <Icon type="user" />
-              <span>nav 1</span>
+              <span>Dashboard</span>
             </Menu.Item>
-            <Menu.Item key="2">
-              <Icon type="video-camera" />
-              <span>nav 2</span>
-            </Menu.Item>
+              <SubMenu
+                key="sub1"
+                title={<span><Icon type="dashboard" /><span>系统管理</span></span>}
+              >
+                <Menu.Item key="2">
+                  <Link to="/statistic" >
+                    分析页
+                  </Link></Menu.Item>
+                <Menu.Item key="3">监控页</Menu.Item>
+                <Menu.Item key="4">工作台</Menu.Item>
+              </SubMenu>
             <Menu.Item key="3">
               <Icon type="upload" />
               <span>nav 3</span>
             </Menu.Item>
           </Menu>
         </Sider>
-        <Layout>
+        <Layout style={{height: '100vh'}}>
           <Header style={{ background: '#fff', padding: '0 24px' }}>
             <Icon
               className="trigger"
@@ -52,6 +61,7 @@ class SiderDemo extends React.Component {
           >
             Content
           </Content>
+          <Footer></Footer>
         </Layout>
       </Layout>
     );

@@ -1,14 +1,12 @@
 import React from 'react';
+import { BrowserRouter } from "react-router-dom";
 import './App.css';
 // import { Button } from 'antd';
-import AntdTest from './AntdTest'
+import Routes from '../routes'
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <AntdTest />
-      {/* <Button type="primary">Button</Button> */}
-    </div>
+    <BrowserRouter basename="/" >{Routes()} </BrowserRouter>
   );
 }
 
