@@ -1,6 +1,8 @@
 import React from 'react';
+import { Button } from 'antd';
+
 const Demo = () => (
-  <span>manage</span>
+  <Button>manage</Button>
 )
 
 export default Demo
