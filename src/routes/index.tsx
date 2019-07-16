@@ -5,6 +5,7 @@ import { createBrowserHistory } from "history";
 import MainLayout from '../layout/MainLayout'
 import Manage from '../pages/Manage'
 import Statistic from '../pages/Statistic'
+import Login from '../pages/Login'
 
 const customHistory = createBrowserHistory();
 
@@ -25,6 +26,11 @@ const routes = [
         component: Statistic
       }
     ]
+  },
+  {
+    path: '/login',
+    exact: true,
+    component: Login
   }
 ]
 
@@ -33,13 +39,20 @@ const Routes = () => (
     {routes.map((route, index) => {
       let { component, path, exact } = route
       let Lazy:any = component
+      
+      console.log('route  ', route)
       return <Route
         key={index}
         path={path}
         exact={exact}
         children={props => {
-          if(!route.children) return
-          console.log('props  ', route.children)
+          if(!route.children) {
+            return <Route
+              path={route.path}
+              exact={route.exact}
+              component={route.component}
+            />
+          }
           return <Lazy {...props} routes={route.children} />
         }}
       />
