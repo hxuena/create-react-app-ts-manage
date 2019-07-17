@@ -4,7 +4,7 @@ import { Route, Link } from 'react-router-dom'
 
 const { Header, Sider, Content, Footer } = Layout;
 
-class SiderDemo extends React.Component {
+class MainLayout extends React.Component {
   state = {
     collapsed: false,
   };
@@ -19,15 +19,24 @@ class SiderDemo extends React.Component {
     return (
       <Layout>
         <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-          <Menu.Item key="manage">
-            <Icon type="user" />
-            <Link to="/manage">管理中信</Link>
-          </Menu.Item>
-          <Menu.Item key="statistic">
-            <Icon type="video-camera" />
-            <Link to="/statistic">数据统计中心</Link>
-          </Menu.Item>
+          <Link to="/">
+            <div style={{ height: '32px', background: 'rgba(255,255,255,.2)', margin: '16px'}}>
+             <Icon type="sketch" />
+            </div>
+          </Link>
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+            <Menu.Item key="1">
+              <Link to="/manage">
+                <Icon type="pie-chart" />
+                <span>manage</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="2">
+              <Link to="/statistic">
+                <Icon type="user" />
+                <span>statistic</span>
+              </Link>
+            </Menu.Item>
         </Menu>
         </Sider>
         <Layout style={{height: '100vh'}}>
@@ -42,13 +51,14 @@ class SiderDemo extends React.Component {
             }}
           >
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-            {routes.map((route:any, i:number)=> (
-               <Route
-                path={route.path}
-                exact={route.exact}
-                component={route.component}
-               />
-            ))}
+              {routes.map((route:any, i:number)=> (
+                <Route
+                  path={route.path}
+                  exact={route.exact}
+                  component={route.component}
+                  key={route.key}
+                />
+              ))}
             </div>
           </Content>
           <Footer>footer</Footer>
@@ -57,4 +67,4 @@ class SiderDemo extends React.Component {
     );
   }
 }
-export default SiderDemo;
+export default MainLayout;
