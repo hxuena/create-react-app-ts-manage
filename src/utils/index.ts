@@ -4,8 +4,11 @@ import { message } from 'antd';
 let Connect:any = null
 
 interface optionsType {
-  error<T>(arg: T): T,
-  success(): string | object
+  error<T>(...arg: T[]): T, //泛型，参数不定
+  success<T>(...arg: T[]): T,
+  noMessage: boolean,
+  noLogin: boolean,
+  error400<T>(...arg: T[]): T
 }
 
 export const utils = {
@@ -46,7 +49,7 @@ export const utils = {
     )
   },
 
-  afterRequest(response:object, options:optionsType) {
+  afterRequest(response: Record<string,any>, options:optionsType) {
     if (!response) {
       options.error && options.error()
       return message.error('服务器繁忙')
@@ -55,11 +58,11 @@ export const utils = {
       return options.success && options.success(response.data)
     } else if (response.status === 401) {
       // utils.clearCookie()
-      !options.noMessage && Root.$message.error('登录已过期，请重新登录')
+      !options.noMessage && message.error('登录已过期，请重新登录')
       if (!options.noLogin) {
         setTimeout(function() {
           localStorage.setItem('pagefrom', location.pathname)
-          window.location.href = process.env.VUE_APP_LOGIN_PAGE
+          // window.location.href = process.env.VUE_APP_LOGIN_PAGE
         }, 2000)
       }
     } else if (response.status === 400) {
@@ -69,14 +72,14 @@ export const utils = {
         options.error && options.error()
         if (response.data.fieldErrors) {
           let firstError = response.data.fieldErrors[0]
-          return Root.$message.error(`${firstError.field}${firstError.message}`)
+          return message.error(`${firstError.field}${firstError.message}`)
         } else if (response.data.title) {
-          return Root.$message.error(`${response.data.title}`)
+          return message.error(`${response.data.title}`)
         }
       }
     } else {
       options.error && options.error()
-      return Root.$message.error('服务器繁忙')
+      return message.error('服务器繁忙')
     }
   },
 }
