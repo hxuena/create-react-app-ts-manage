@@ -1,12 +1,11 @@
 import * as React from "react";
 import { Route, Switch, RouteProps } from "react-router-dom";
-
 import MainLayout from '../layout/MainLayout'
-import Manage from '../pages/Manage'
-import Statistic from '../pages/Statistic'
 import Login from '../pages/Login'
 import NotFound  from '../pages/NotFound'
-const { Suspense } = React;
+import Manage from '../pages/Manage'
+import Statistic from '../pages/Statistic'
+import VipConf from '../pages/VipConf'
 
 interface AiuiProps extends RouteProps {
   key?: string,
@@ -36,6 +35,12 @@ const routes:AiuiProps[]= [
         exact: true,
         component: Statistic,
         key: 'statistic'
+      },
+      {
+        path: '/vipConf',
+        exact: true,
+        component: VipConf,
+        key: 'vipConf'
       }
     ]
   }

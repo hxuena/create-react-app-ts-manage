@@ -1,6 +1,7 @@
 import React from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import { Route, Link } from 'react-router-dom'
+import MenuCom from '../components/Menu'
 
 const { Header, Sider, Content, Footer } = Layout;
 
@@ -21,23 +22,9 @@ class MainLayout extends React.Component {
         <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
           <Link to="/">
             <div style={{ height: '32px', background: 'rgba(255,255,255,.2)', margin: '16px'}}>
-             <Icon type="sketch" />
             </div>
           </Link>
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-            <Menu.Item key="1">
-              <Link to="/manage">
-                <Icon type="pie-chart" />
-                <span>manage</span>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <Link to="/statistic">
-                <Icon type="user" />
-                <span>statistic</span>
-              </Link>
-            </Menu.Item>
-        </Menu>
+          <MenuCom />
         </Sider>
         <Layout style={{height: '100vh'}}>
           <Header style={{ background: '#fff', padding: '0 24px' }}>
