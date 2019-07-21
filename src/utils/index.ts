@@ -6,14 +6,15 @@ let Connect:any = null
 interface optionsType {
   error<T>(...arg: T[]): T, //泛型，参数不定
   success<T>(...arg: T[]): T,
-  noMessage: boolean,
-  noLogin: boolean,
-  error400<T>(...arg: T[]): T
+  noMessage?: boolean,
+  noLogin?: boolean,
+  // error400?: <T>(...arg: T[]):T => void(),
+  error400?:(...arg: any) => void
 }
 
 export const utils = {
-  init() {
-    Connect = Axios.create({
+  // init() {
+    Connect: Axios.create({
       headers: {},
       transformRequest: [
         function( data: Record<string,any>) {
@@ -29,25 +30,8 @@ export const utils = {
         return status >= 200 && status < 500 //默认
       },
       withCredentials: true
-    })
-  },
-  /**
-   * Get 请求
-   */
-  httpGet(url: string, payload:object, options: optionsType) {
-    Connect.get(url, { params: payload }).then(
-      (response: object) => {
-        utils.afterRequest(response, options)
-      },
-      (err: object) => {
-        if (options.error) {
-          options.error(err)
-        } else {
-          return message.error('服务器繁忙')
-        }
-      }
-    )
-  },
+    }),
+  // },
 
   afterRequest(response: Record<string,any>, options:optionsType) {
     if (!response) {
@@ -61,7 +45,7 @@ export const utils = {
       !options.noMessage && message.error('登录已过期，请重新登录')
       if (!options.noLogin) {
         setTimeout(function() {
-          localStorage.setItem('pagefrom', location.pathname)
+          // localStorage.setItem('pagefrom', location.pathname)
           // window.location.href = process.env.VUE_APP_LOGIN_PAGE
         }, 2000)
       }
@@ -82,4 +66,22 @@ export const utils = {
       return message.error('服务器繁忙')
     }
   },
+}
+
+/**
+* Get 请求
+*/
+export const httpGet = (url: string, payload:object, options: optionsType) => {
+ utils.Connect.get(url, { params: payload }).then(
+   (response: object) => {
+     utils.afterRequest(response, options)
+   },
+   (err: object) => {
+     if (options.error) {
+       options.error(err)
+     } else {
+       return message.error('服务器繁忙')
+     }
+   }
+ )
 }
