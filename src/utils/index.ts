@@ -1,39 +1,37 @@
 import Axios  from 'axios';
 import { message } from 'antd';
+import { ResponseData } from '../globalType';
 
 let Connect:any = null
 
-interface optionsType {
-  error<T>(...arg: T[]): T, //泛型，参数不定
-  success<T>(...arg: T[]): T,
+interface OptionsType {
+  error<T>(arg?: T[] | ResponseData): T | ResponseData, //泛型，参数不定
+  success<T>(arg?: T[] | ResponseData): T | ResponseData,
   noMessage?: boolean,
   noLogin?: boolean,
-  // error400?: <T>(...arg: T[]):T => void(),
   error400?:(...arg: any) => void
 }
 
 export const utils = {
-  // init() {
-    Connect: Axios.create({
-      headers: {},
-      transformRequest: [
-        function( data: Record<string,any>) {
-          let ret = ''
-          for (let it in data) {
-            ret +=
-              encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-          }
-          return ret
+  Connect: Axios.create({
+    headers: {},
+    transformRequest: [
+      function( data: Record<string,any>) {
+        let ret = ''
+        for (let it in data) {
+          ret +=
+            encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
         }
-      ],
-      validateStatus: function(status: number | string) {
-        return status >= 200 && status < 500 //默认
-      },
-      withCredentials: true
-    }),
-  // },
+        return ret
+      }
+    ],
+    validateStatus: function(status: number | string) {
+      return status >= 200 && status < 500 //默认
+    },
+    withCredentials: true
+  }),
 
-  afterRequest(response: Record<string,any>, options:optionsType) {
+  afterRequest(response: Record<string,any>, options:OptionsType) {
     if (!response) {
       options.error && options.error()
       return message.error('服务器繁忙')
@@ -71,7 +69,7 @@ export const utils = {
 /**
 * Get 请求
 */
-export const httpGet = (url: string, payload:object, options: optionsType) => {
+export const httpGet = (url: string, payload:object, options: OptionsType) => {
  utils.Connect.get(url, { params: payload }).then(
    (response: object) => {
      utils.afterRequest(response, options)

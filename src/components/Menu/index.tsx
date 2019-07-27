@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Icon } from 'antd';
+import { Menu, Icon, Avatar } from 'antd';
 import { Route, Link } from 'react-router-dom'
 
 const { SubMenu } = Menu;
@@ -8,6 +8,7 @@ const MenuCom = () => {
   console.log('Menu render..')
   return <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
     <Menu.Item key="1">
+    <Avatar size="small"  />
       <Link to="/manage">
         <Icon type="pie-chart" />
         <span>系统管理</span>
